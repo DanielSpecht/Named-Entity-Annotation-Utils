@@ -1,0 +1,616 @@
+Taken from:
+https://www.linguateca.pt/primeiroHAREM/harem_classificacao_v2.html
+
+Nesta página encontram-se as directivas de anotação da colecção dourada no HAREM.
+O presente conjunto de directivas, versão 3.1, actualizada no dia 18 de Janeiro, incorpora já o resultado da discussão e várias sugestões dos participantes.
+
+1 - Regras de Etiquetagem
+2 - Categoria PESSOA
+3 - Categoria ORGANIZACAO
+4 - Categoria TEMPO
+5 - Categoria LOCAL
+6 - Categoria OBRA
+7 - Categoria ACONTECIMENTO
+8 - Categoria ABSTRACCAO
+9 - Categoria COISA
+10 - Categoria VALOR
+11 - Categoria VARIADO
+12 - Morfologia
+HAREM - REGRAS DE ANOTAÇÃO V3.1
+
+1) Regras de etiquetagem
+
+1.1) As categorias / tipos não devem ter acentos e/ou cedilhas.
+
+<ORGANIZACAO> - Certo.
+<ORGANIZAÇÃO> - Errado.
+1.2) Os tipos devem ter aspas.
+
+<PESSOA TIPO="GRUPO"> - Certo.
+<PESSOA TIPO=GRUPO> - Errado.
+
+1.3) Deve estar tudo em maiúsculas
+
+<PESSOA TIPO="GRUPO"> - Certo.
+<pessoa tipo="grupo"> - Errado.
+
+1.4) Não se deve usar etiquetas dentro de etiquetas.
+
+<PESSOA TIPO="GRUPO"><ORGANIZACAO TIPO="INSTITUICAO">Bombeiros</ORGANIZACAO></PESSOA> - Errado.
+
+1.5) No caso de haver dúvidas entre várias categorias / tipos, deve utilizar-se o operador '|'
+
+ex: Ajudem os Bombeiros! 
+Bombeiros deve ser <PESSOA TIPO=”GRUPO”> ou <ORGANIZACAO TIPO=”INSTITUICAO”>? 
+
+Ajudem os <PESSOA|ORGANIZACAO TIPO=”GRUPO|INSTITUICAO”>Bombeiros</PESSOA|ORGANIZACAO>! - Certo.
+
+Caso a dúvida seja entre tipos, deve-se repetir a categoria!
+
+Ex: O ISR trata dessa papelada - <ORGANIZACAO TIPO="EMPRESA"> ou <ORGANIZACAO TIPO="INSTITUICAO">?
+
+O <ORGANIZACAO|ORGANIZACAO TIPO=”EMPRESA|INSTITUICAO”>ISR</ORGANIZACAO|ORGANIZACAO> trata dessa papelada.
+
+1.6) No entanto, se tal envolver também os átomos da EM, usa-se em alternativa o <ALT>
+
+ex: O <ALT><CATEG1 TIPO=”TIPO1”>Governo de Cavaco Silva</CATEG1> | Governo de <CATEG2 TIPO=”TIPO2”>Cavaco Silva</CATEG2></ALT>
+
+1.7) As aspas, parêntesis e pelicas não são para incluir na etiqueta!
+
+A "<OBRA TIPO="ARTE">Mona Lisa</OBRA>" - Certo.
+A <OBRA TIPO="ARTE">"Mona Lisa"</OBRA> - Errado.
+
+1.8) Uma Entidade Mencionada (EM) deve ter pelo menos uma palavra em maiúsculas, e/ou algarismos.
+
+<TEMPO TIPO="DATA">Agosto</TEMPO> - Certo.
+
+<TEMPO TIPO="DATA">ontem de manhã</TEMPO> - Errado.
+
+Excepção feita apenas para os meses, devido ao facto de haver grafia maiúscula em Portugal e minúscula no Brasil.
+
+<TEMPO TIPO="DATA">agosto de 2001</TEMPO> - Certo.
+
+Se uma determinada EM, etiquetada como tal, aparecer depois sem maiúsculas, não deve ser etiquetada. Uma EM tem de ter obrigatoriamente pelo menos uma letra maiúscula e/ou algarismos.
+
+1.9) Não deve haver nenhum espaço imediatamente a seguir à etiqueta de abertura e antes da etiqueta de fecho.
+
+O <EM>João</EM> é um... - Certo.
+O<EM> João</EM> é um... - Errado.
+O <EM>João </EM>é um... - Errado.
+
+1.10) A identificação de EMs deve conter apenas o essencial da EM. Muito do sintagma que a compõe não é para incluir.
+
+ex: a filha de <PESSOA TIPO="INDIVIDUAL">Giuteyte</PESSOA> - Certo. 
+ex: o tratado de <LOCAL TIPO="ADMINISTRATIVO">Tordesilhas</LOCAL> - Certo. 
+ex: o tempo do <PESSOA TIPO="INDIVIDUAL">Otelo</PESSOA> - Certo.
+
+1.11) Quando há partes de EM que por razões anafóricas são interpretáveis como pertencendo a uma categoria, mas isoladamente pertencem a outra, anotam-se nesta última categoria.
+ex: A Revoluçã de 1930 ... e a de 1932. Deve marcar-se 1932 como <TEMPO TIPO="DATA"> e não como <ACONTECIMENTO TIPO="EFEMERIDE">.
+
+2) Categoria PESSOA
+
+2.1) Geral
+
+2.2) Tipo INDIVIDUAL
+
+2.2.1) Os títulos e parentescos usados no tratamento da referência de uma pessoa devem ser incluídos. Formas de tratamento como presidente, engenheiro, etc devem ser incluídos. Cargos genéricos como patrão, chefe, etc não devem ser incluídos, nem profissões que não façam parte da forma de tratamento.
+
+O <PESSOA TIPO="INDIVIDUAL">Dr. Sampaio</PESSOA> - Certo. 
+O <PESSOA TIPO="INDIVIDUAL">presidente Jorge Sampaio</PESSOA> - Certo. 
+O <PESSOA TIPO="INDIVIDUAL">padre Melícias</PESSOA> - Certo. 
+<PESSOA TIPO="INDIVIDUAL">tio Zeca</PESSOA> - Certo. 
+O acordeonista <PESSOA TIPO="INDIVIDUAL">Miguel Sá</PESSOA> - Certo. 
+O <PESSOA TIPO="INDIVIDUAL">acordeonista Miguel Sá</PESSOA> - Errado.
+
+2.2.2) Os cargos que não estejam separados por uma vírgula do nome devem ser incluídos no tipo INDIVIDUAL. Se houver vírgula, ficam de fora.
+
+O <PESSOA TIPO="INDIVIDUAL">Presidente da República Jorge Sampaio</PESSOA> disse - Certo 
+O <PESSOA TIPO="CARGO">Presidente da República</PESSOA> <PESSOA TIPO="INDIVIDUAL">Jorge Sampaio</PESSOA> disse - Errado. 
+O <PESSOA TIPO="CARGO">Presidente da República <PESSOA TIPO="INDIVIDUAL">Jorge Sampaio</PESSOA></PESSOA> disse - Errado. 
+O <PESSOA TIPO="INDIVIDUAL"><PESSOA TIPO="CARGO">Presidente da República</PESSOA> Jorge Sampaio</PESSOA> disse - Errado. 
+O <PESSOA TIPO="INDIVIDUAL">Presidente da República, Jorge Sampaio</PESSOA>, disse - Errado 
+O <PESSOA TIPO="CARGO">Presidente da República</PESSOA>, <PESSOA TIPO="INDIVIDUAL">Jorge Sampaio</PESSOA>, disse - Certo.
+
+2.2.3) Caso o cargo seja descrito após o nome, aplica-se a mesma regra.
+
+<PESSOA TIPO="INDIVIDUAL">Jorge Sampaio</PESSOA>, <PESSOA TIPO="CARGO">Presidente da República</PESSOA>, assinou... - Certo. 
+<PESSOA TIPO="INDIVIDUAL">Jorge Sampaio, Presidente da República</PESSOA>, assinou... - Errado.
+
+2.2.4) Diminutivos, Alcunhas, Iniciais e Nomes Mitológicos / Entidades Religiosas são para etiquetar nesta categoria.
+
+<PESSOA TIPO="INDIVIDUAL">Zé</PESSOA> - Certo (Diminuitivo de 'José') 
+<PESSOA TIPO="INDIVIDUAL">Iron Tyson</PESSOA> - Certo ("Iron" é a 'alcunha' de Mike Tyson, o pugilista) 
+<PESSOA TIPO="INDIVIDUAL">JFK</PESSOA> - Certo 
+<PESSOA TIPO="INDIVIDUAL">Jesus</PESSOA> - Certo 
+<PESSOA TIPO="INDIVIDUAL">Phoenix</PESSOA> - Certo
+
+2.2.5) Quando uma entidade mencionada é referida como um nome e não como a entidade nomeada, esse nome (independentemente de se referir a uma pessoa, animal ,organização etc.) é marcado como <ABSTRACCAO TIPO="NOME">:
+
+Dei-lhe o nome de <ABSTRACCAO TIPO="NOME">João Sem Medo</ABSTRACCAO> - Certo. 
+Dei-lhe o nome de <PESSOA TIPO="INDIVIDUAL">João Sem Medo</PESSOA> - Errado. 
+Uma organização suspeita denominada <ABSTRACCAO TIPO="NOME">Os Inimigos das Formigas</ABSTRACCAO> foi ilegalizada ontem no Cairo.
+
+2.2.6) No caso de haver um grupo de pessoas discriminadas, deve-se etiquetar cada um dos nomes separado.
+
+No exemplo "Os tenistas Carlos Guerra e António Gomes foram a Wimbledon":
+
+Os tenistas <PESSOA TIPO="INDIVIDUAL">Carlos Guerra</PESSOA> e <PESSOA TIPO="INDIVIDUAL">António Gomes</PESSOA> foram a Wimbledon - Certo. 
+Os tenistas <PESSOA TIPO="GRUPO">Carlos Guerra e António Gomes</PESSOA> foram a Wimbledon - Errado.
+
+2.2.7) Referências que não são cargos, mas que referem uma pessoa individual, são para ser etiquetados como tal.
+
+<PESSOA TIPO="INDIVIDUAL">Vossa Excia</PESSOA> - Certo.
+
+2.2.8) No caso de entrevistas, quando o entrevistador é referenciado pelo nome da publicação, deve ser etiquetado como <PESSOA TIPO="INDIVIDUAL">
+
+<PESSOA TIPO="INDIVIDUAL">Jornal Nacional</PESSOA> - O que sente depois de ganhar o prémio? - Certo.
+
+<ORGANIZACAO TIPO="EMPRESA">Jornal Nacional</ORGANIZACAO> - O que sente depois de ganhar o prémio? - Errado.
+
+2.3) Tipo CARGO
+
+Deve ser usado na referência de um posto que é ocupado por uma ou várias pessoas, mas que poderá no futuro ser ocupado por outros indivíduos. Se bem que no contexto, o CARGO é de uma pessoa ou pessoas em concreto, e como tal, a anotação semântica devia ser <PESSOA TIPO="INDIVIDUAL">, deve-se ter em conta que um cargo pode ter diferentes pessoas ao longo do tempo, tais como: Papa, Ministro dos Negócios Estrangeiros, Rainha da Abissínia,
+
+2.3.1) Cargos que possuem na descrição uma organização, devem ter apenas uma etiqueta de <PESSOA TIPO="CARGO">.
+
+O <PESSOA TIPO="CARGO">Presidente da ONU</PESSOA> foi... - Certo. 
+O <PESSOA TIPO="CARGO">Presidente da <ORGANIZACAO>ONU</ORGANIZACAO></PESSOA> foi... - Errado.
+
+2.4) Tipo GRUPOCARGO Deve-se incluir todas as EMs que implicitamente referem um conjunto de pessoas, referidas pelo cargo. Ex:os <PESSOA TIPO="GRUPOCARGO">Ministros dos Negócios Estrangeiros da União Europeia</PESSOA>2.5) Tipo GRUPOIND Deve-se incluir todas as EMs que implicitamente referem um conjunto de pessoas, referidas pelo nome. ex: Foi em casa dos <PESSOA TIPO="GRUPOIND">Mirandas</PESSOA>
+2.6) Tipo GRUPOMEMBRO Deve-se incluir todas as EMs que implicitamente referem um conjunto de pessoas, referidas como sendo membros de uma organização.
+
+ex: Os <PESSOA TIPO="GRUPOMEMBRO">Mórmons</PESSOA> estavam na sala ao lado.
+2.7) Tipo MEMBRO
+
+Em casos, como o seguinte, onde apesar da referência à pessoa pela organização que representa, é só um indivíduo, e não um grupo, é marcado com este tipo.
+
+Ele foi abordado por um <PESSOA TIPO="MEMBRO">GNR</PESSOA> à paisana.
+
+2.8) Muitas das vezes, equipas desportivas podem ser referidas como grupos de pessoas, e devem ser etiquetadas como tal!
+
+O <PESSOA TIPO="GRUPOMEMBRO">FC Porto</PESSOA> jogou muito bem e venceu o jogo. - Certo. 
+O <ORGANIZACAO>FC Porto</ORGANIZACAO> jogou muito bem e venceu o jogo. - Errado. 
+O <ORGANIZACAO>FC Porto</ORGANIZACAO> tem um estádio... - Certo. 
+O <PESSOA TIPO="GRUPOMEMBRO">FC Porto</PESSOA> tem um estádio... - Errado.
+
+2.9) Deve-se ter em atenção que um cargo, se referir apenas um indivíduo, não deixa de ser um CARGO. Caso refira mais do que um indivíduo, passa a ser GRUPOCARGO.
+
+3) Categoria ORGANIZACAO
+
+3.1) Tipo ADMINISTRACAO
+
+Este tipo pretende etiquetar as organizações que têm que ver com a administração e governação de um território, tal como ministérios, municípios, câmaras, autarquias, secretarias de estado (Secretaria de Estado da Cultura, Brasil, Prefeitura de São Paulo, Câmara Municipal de Leiria). Inclui também as organizações que têm a ver com administração a nível internacional ou supra-nacional (ONU, UE,...)
+
+3.1.1) Territórios ocupados e ex-colónias também são para serem etiquetados. Podem ser <LOCAL TIPO="ADMINISTRATIVO"> ou <ORGANIZACAO TIPO="ADMINISTRACAO">, dependendo do contexto.
+
+Ex: <ORGANIZACAO TIPO="ADMINISTRACAO">Moçambique</ORGANIZACAO> fornecia muito café.
+
+3.2) Tipo EMPRESA
+
+Para organizações com fins lucrativos, como empresas, sociedades, clubes (Boavista FC, Círculo de Leitores, Livraria Barata, (discoteca) Kapital)
+
+3.3) Tipo INSTITUICAO
+
+Todas as organizações que não são empresas nem têm um fim principal de governar ou administrar são consideradas INSTITUICAO. De notar que este nome inclui tanto instituições no sentido estrito como associações e outras organizações menos institucionalizadas.
+
+Exemplos de INSTITUICAO são associações, universidades, colectividades, escolas, partidos políticos (Associação de Amizade Portugal-Bulgária, Universidade Federal do Rio Grande do Sul, Liceu Maria Amália, PC do B (Partido Comunista do Brasil) , Museu do Ar, PSP, Amnistia Internacional).
+
+3.4) Empresas que são descritas nos cargos de pessoas, não são para etiquetar!
+
+O <PESSOA TIPO="CARGO">CEO da Microsoft</PESSOA> foi a... - Certo. 
+O <PESSOA TIPO="CARGO">CEO da <ORGANIZACAO>Microsoft</ORGANIZACAO></PESSOA> foi a... - Errado.
+
+3.5) Tipo SUB
+
+No caso de a EM se referir a um determinado sector de uma organização, mas sem autonomia para ser considerada ela própria uma organização, tais como:
+- Departamentos, Secções, Acessorias, Assembleias Gerais, Comissões, Comitês, Secretarias, Portaria, etc 
+
+ex: Deve-se dirigir ao <ORGANIZACAO TIPO="SUB">Departamento dos Alunos de Mestrado do IST</ORGANIZACAO>
+ex: A <ORGANIZACAO TIPO="SUB">Assembleia Geral da Empresa XPTO</ORGANIZACAO> reuniu-se hoje.
+
+3.5.1) No caso do nome da organização estar dentro dos casos de 3.5, não se etiqueta!
+
+O <ORGANIZACAO TIPO="SUB">Departamento de Marketing da General Motors</ORGANIZACAO>.. - Certo. 
+O <ORGANIZACAO TIPO="SUB">Departamento de Marketing da <ORGANIZACAO TIPO=EMPRESA">General Motors</ORGANIZACAO></ORGANIZACAO>.. - Errado.
+
+3.5.2) No caso de sucursais, filiais, empresas franchising, etc, ou seja, onde haja autonomia para se considerar uma instituição autónoma, não é <ORGANIZACAO TIPO="SUB">.
+
+ex:
+A <ORGANIZACAO TIPO=EMPRESA>VW Portugal</ORGANIZACAO> vai lançar uma iniciativa - Certo.
+A <ORGANIZACAO TIPO=SUB>VW Portugal</ORGANIZACAO> vai lançar uma iniciativa - Errado.
+
+ex: A <ORGANIZACAO TIPO=EMPRESA>GM</ORGANIZACAO> disse à <ORGANIZACAO TIPO=EMPRESA>GM Portugal</ORGANIZACAO> para recolher veículos - Certo. Embora a segunda EM possa ter uma dependência de certa forma à primeira EM, no entanto sai do âmbito do tipo SUB, que pretende delimitar EMs que são de sectores dentro de uma organização.
+
+Como tal, resumindo:
+
+<ORGANIZACAO TIPO="EMPRESA">GM Portugal</ORGANIZACAO> - Certo. 
+<ORGANIZACAO TIPO="SUB">Departamento de Vendas da GM</ORGANIZACAO> - Certo. 
+A <ORGANIZACAO TIPO="INSTITUICAO">Faculdade de Ciências da Universidade de Lisboa</ORGANIZACAO> - Certo.
+A <ORGANIZACAO TIPO="INSTITUICAO">Universidade de Lisboa</ORGANIZACAO> recomendou à <ORGANIZACAO TIPO="INSTITUICAO">Faculdade de Ciências</ORGANIZACAO> - Certo.
+A <ORGANIZACAO TIPO="SUB">Reprografia da Universidade de Lisboa</ORGANIZACAO> fecha às 16h - Certo.
+
+4) Categoria TEMPO
+
+4.1) Geral
+
+Para marcar TEMPO, desencoraja-se o uso de palavras que não referem explicitamente a data ou a hora.
+
+Textos como 'final de 1999', 'próximo dia 22', 'entre 14 e 18', 'meados de Agosto', 'antes do dia 3', só devem ter marcadas como EM, respectivamente, '1999','22','14','18','Agosto' e '3'.
+
+A única excepção é para nomes de meses em português do Brasil, como já referido.
+
+Embora uma idade seja medida em anos (seja uma quantidade de tempo), é marcada como <VALOR TIPO="QUANTIDADE"> e não como <TEMPO>.
+
+4.2) Tipo DATA
+
+4.2.1) Todas as referências a dias, mês e ano. Referências a mês e ano, ou só a ano, devem ser contadas se, no contexto, a referência indica uma localização temporal única. Esta pode ter diferentes granularidades (pode ser um dia ou vários meses).
+
+ex: Camões morreu em <TEMPO TIPO="DATA">1580</TEMPO> - Certo 
+ex: O EURO foi em <TEMPO TIPO="DATA">2004</TEMPO> - Certo 
+ex: No dia <TEMPO TIPO="DATA">24 de Agosto de 1976</TEMPO> - Certo. 
+ex: Em <TEMPO TIPO="DATA">Agosto de 1976</TEMPO> foi a Final da Taça - Certo. 
+ex: Em <TEMPO TIPO="DATA">Agosto de 1976</TEMPO> houve 54 suicídios - Errado. é TEMPOTIPO="PERIODO". 
+ex: Em <TEMPO TIPO="DATA">1974</TEMPO> houve a Revolução - Certo. 
+ex: Em <TEMPO TIPO="DATA">1974</TEMPO> vendeu-se 200.000 carros - Errado. é TEMPO TIPO="PERIODO".
+
+4.2.2) Referências a períodos com duas datas devem ser etiquetadas com duas etiquetas <TEMPO TIPO="DATA">
+
+Entre <TEMPO TIPO="DATA">4</TEMPO> a <TEMPO TIPO="DATA">6 de Dezembro</TEMPO> há o Festival - Certo. 
+<TEMPO TIPO="PERIODO">Entre 4 a 6 de Dezembro</TEMPO> há o Festival - Errado.
+
+4.3) Tipo HORA
+
+4.3.1) Aplicam-se as mesmas regras para as horas, como descrito para DATAS em 4.2.1) e 4.2.2).
+
+às <TEMPO TIPO="HORA">2h00</TEMPO> vou ao dentista. - Certo. 
+Entre as <TEMPO TIPO="HORA">2h00</TEMPO> e as <TEMPO TIPO="HORA">4h00</TEMPO> estou no dentista. - Certo.
+
+4.3.2) Horas com modificação referente a fusos horários são ainda horas, uma vez que é parte essencial para percebermos o tempo da ocorrência.
+
+O atentado ocorreu às <TEMPO TIPO="HORA">13h, hora de Lisboa</TEMPO>, e fez... - Certo.
+
+4.4) Tipo PERIODO
+
+Entidade mencionada que refere um intervalo de tempo contínuo e não repetido, com apenas um início e um fim (Inverno, anos 80, século XIX, 1984, pós-25 de Abril, a Idade do Bronze). Em alguns casos a mesma EM pode referir um período único ou cíclico:
+
+Vou três vezes a Londres no próximo <TEMPO TIPO="PERIODO">Inverno</TEMPO>. 
+O <TEMPO TIPO="CICLICO">Inverno</TEMPO> em Oslo costuma ser frio.
+
+4.5) Tipo CICLICO
+
+Períodos recorrentes (véspera de Natal, 1º de Janeiro, 2.o semestre, Páscoa), quando empregues como tal.
+
+Há que ter atenção que uma dada EM da categoria TEMPO pode ter quase sempre duas interpretações:
+
+No dia 6 de Novembro comemora-se... 
+No dia 6 de Novembro vai haver uma greve...
+
+No primeiro caso, como acontece todos os anos, é <TEMPO TIPO="CICLICO">. No segundo caso,é <TEMPO TIPO="DATA">, porque se refere a um único dia.
+
+5) Categoria LOCAL
+
+5.1) Geral
+
+Fazemos uma diferença clara entre acidentes geográficos (naturais, objecto de estudo da geografia física) e localizações de geografia humana. A Amazónia é um local GEOGRAFICO, o Brasil é um local ADMINISTRATIVO. Nos casos em que existe uma coincidência exacta, como é o caso da Islândia, preferimos o ADMINISTRATIVO.
+
+5.2) Tipo CORREIO
+
+Todas as referências a locais com indicações COMPLETAS, tais como moradas, números de salas, salas de cinema (Sala 6, Caixa Postal 2400, Rua da Escola 15B). Referências que não incluam endereços completos, ou cuja intenção não é facultar uma morada completa, devem se rdo tipo ALARGADO e não CORREIO.
+
+5.2.1) Ao assinalar um <LOCAL TIPO="CORREIO">, não se deve incluir mais locais dentro!
+
+<LOCAL TIPO="CORREIO">Rua Augusta, nº 5 - Lisboa</LOCAL> - Certo. 
+<LOCAL TIPO="CORREIO">Rua Augusta, nº 5 - <LOCAL TIPO="ADMINISTRATIVO">Lisboa</LOCAL></LOCAL> - Errado.
+
+5.3) Tipo ADMINISTRATIVO
+
+Identifica localizações que foram criadas pelo Homem. Inclui países, bairros, regiões geopolíticas (Rio de Janeiro, Alentejo, bairro dos Anjos, Ásia Menor, Região Autónoma dos Açores, Jardim das Amoreiras, Médio Oriente, América Latina, África, Países de Leste)
+
+5.3.1) Não se deve incluir o tipo de local, caso haja. Exemplos: distrito, concelho, aldeia, vila, cidade, bairro, região, etc.
+
+vou para a cidade de <LOCAL TIPO="ADMINISTRATIVO">Viseu</LOCAL>. - Certo. 
+vou para a <LOCAL TIPO="ADMINISTRATIVO">cidade de Viseu</LOCAL>. - Errado.
+
+5.3.2) Não há necessidade de colocar um LOCAL ADMINISTRATIVO dentro de ORGANIZACAO.
+
+ex: <ORGANIZACAO>Câmara Municipal de Braga</ORGANIZACAO> .- Certo. 
+ex: <ORGANIZACAO>Câmara Municipal de <LOCAL>Braga</LOCAL></ORGANIZACAO> - Errado.
+
+5.3.3) Os nomes dos países designam locais... mas há casos em que a referência ao nome do País implicitamente é ao Governo, ou seja, ORGANIZACAO ADMINISTRACAO.
+
+ex: Portugal condenou a acção da Indonésia - Aqui as referências aos dois países são ORGANIZACAO.
+
+5.4) Tipo GEOGRAFICO
+
+5.4.1) Também não se deve incluir o tipo de acidente geográfico, ou seja, rio, montanha, mar, península, etc.
+
+Vou ao estuário do <LOCAL TIPO="GEOGRAFICO">Douro</LOCAL> - Certo. 
+Vou ao estuário do rio <LOCAL TIPO="GEOGRAFICO">Douro</LOCAL> - Certo. 
+Vou ao <LOCAL TIPO="GEOGRAFICO">rio Douro</LOCAL> .- Errado.
+
+5.5) Tipo VIRTUAL
+
+A categoria virtual engloba locais como a Internet, URLs ou endereços de correio electrónico, nºs de telefone / fax / etc, assim como meios de comunicação social quando designam local de publicação.
+
+5.5.1) Só se deve etiquetar os URLs, endereços de email e nºs de telefone, nunca o que precede!
+
+Vê o meu URL <LOCAL TIPO="VIRTUAL">http://www.url.com</LOCAL> - Certo. 
+Vê o meu <LOCAL TIPO="VIRTUAL">URL http://www.url.com</LOCAL> - Errado. 
+Tel: <LOCAL TIPO="VIRTUAL">(096)347845 4563</LOCAL> - Certo. 
+<LOCAL TIPO="VIRTUAL">Tel: (096)347845 4563</LOCAL> - Errado.
+
+5.5.2) Quando se refere, por exemplo, que o local é num meio de comunicação social. A ideia é distinguir que o item X possui uma localização em Y, mesmo que Y seja uma ORGANIZACAO, OBRA, etc, mas faz o papel de 'alojamento' de X.
+
+Podes ler o meu artigo no <LOCAL TIPO="VIRTUAL">Jornal de Notícias</LOCAL> - Certo.
+
+5.6) Tipo ALARGADO
+
+Deve conter todas as referências a locais que não estão nas categorias acima. Qualquer edifício que tenha nome, qualquer entidade física que seja usada para indicar um lugar (exemplo: Centro Comercial de Lisboa) no contexto.
+
+5.6.1) Frequentemente, hotéis são referenciados como sítios onde ocorrem coisas, tipo eventos, congressos, etc. Neste caso, são LOCAL ALARGADO. Isto estende-se para outros casos.
+
+O Congresso decorrerá no <LOCAL TIPO="ALARGADO">Hotel Alfa</LOCAL> e durará... - Certo. 
+O Congresso decorrerá no <ORGANIZACAO TIPO="EMPRESA">Hotel Alfa</ORGANIZACAO> e durará... - Errado. 
+O <ORGANIZACAO TIPO="EMPRESA">Hotel Alfa</ORGANIZACAO> possui 500 quartos... - Certo. 
+O <LOCAL TIPO="ALARGADO">Hotel Alfa</LOCAL> possui 500 quartos... - Errado.
+
+5.6.2) No caso de se referir uma rua, avenida ou praça como um local onde ocorreu ou está localizado qualquer coisa, mas não como se de uma morada ou endereço se tratasse, é um <LOCAL TIPO="ALARGADO">.
+
+Ex: O incêncio foi na <LOCAL TIPO="ALARGADO">Rua do Padrão</LOCAL>. - Certo. 
+Ex: O incêncio foi na <LOCAL TIPO="CORREIO">Rua do Padrão</LOCAL>. - Errado. 
+Eu deixei o carro na <LOCAL TIPO="ALARGADO">Praça da Alegria</LOCAL>. - Certo. 
+Eu moro na <LOCAL TIPO="CORREIO">Praça da Alegria, nº 7</LOCAL>. - Certo. 
+Eu moro na <LOCAL TIPO="ALARGADO">Praça da Alegria, nº 7</LOCAL>. - Errado.
+
+6) Categoria OBRA
+
+6.1) GERAL
+
+Basicamente o conceito de OBRA refere-se a qq coisa feita pelo homem que tenha um nome próprio (não comum).
+
+6.2) Tipo PRODUTO
+
+Deve referir um produto concreto. Muitas vezes o nome de um produto é idêntico ao nome de uma marca, a diferença está no contexto: um PRODUTO é algo que se faz em série e tem um nome concreto, enquanto que a marca é algo mais abstracto.
+
+Ex. Tenho um <OBRA TIPO="PRODUTO">Fiat Punto</OBRA>. - Fala-se de um produto em concreto, um carro que eu tenho. 
+Os <OBRA TIPO="PRODUTO">Fiat Punto</OBRA> não têm bons travões. - Fala-se de o conjunto de todos (ou a maior partede ) os Fiat Punto 
+A <ABSTRACCAO TIPO="MARCA">Fiat</ABSTRACCAO> não é conhecida na Indonésia. - Fala-se de uma marca de carros.
+
+Já agora, não há necessidade de etiquetar a empresa FIAT.
+
+Outro exemplo são programas de computador:
+
+O meu <OBRA TIPO="PRODUTO">MS Word</OBRA> não funciona! 
+Saiu o <OBRA TIPO="PRODUTO">MS Word 2003</OBRA> e está à venda.
+
+Nas duas situações, MS (Microsoft) não é para ter uma etiqueta de ORGANIZACAO dentro da etiqueta do produto / marca.
+
+6.3) Tipo REPRODUZIDA - obras das quais há muitos exemplares, o nome representa o original a partir do qual se fazem as reproduções ("Turn it on again", "Olhai os Lírios do Campo", "E Tudo o Vento Levou", Sinfonia em si bemol de Carlos Seixas, Bíblia)
+
+6.4) Tipo ARTE - obras / objectos das quais há um exemplar único (Torre Eiffel, Guernica, Cristo-Rei, Capela Sistina, Igreja da Luz)
+
+Nota: Quando se fala de um quadro, por exemplo, 'Guernica' de Picasso, refere-se obviamente ao original, e não às suas cópias / imitações. Como tal, não é de tipo PUBLICACAO.
+
+6.5) Tipo PUBLICACAO - obras escritas não referidas pelo nome, tais como citações de livros, artigos, decretos, directivas, etc. (Maia et al. (2004), Santos & Sarmento (2003:114), Mota (op.cit.), decreto Lei 254/94).
+
+Quando se fala dos livros de um autor pelo nome do autor, por exemplo, também é para marcar como <ABSTRACCAO TIPO="OBRA">, e não como <PESSOA TIPO="INDIVIDUAL">.
+
+6.5.1) Engloba produtos literários que não sejam referidos pelo seu nome, apenas por citações, tal como livros, autores, artigos, decretos, directivas, etc
+
+"<OBRA TIPO="REPRODUZIDA">Os Lusíadas</OBRA>" descrevem a odisseia dos portugueses - Certo 
+<OBRA TIPO="PUBLICACAO">Camões(1554)</OBRA> diz que...
+
+6.5.2) Excepção a 6.5.1: Quando a referência a um autor pressupõe um estilo artístico ou o seu trabalho artístico, deve ser de categoria <ABSTRACCAO TIPO="OBRA">:
+
+Em <ABSTRACCAO TIPO="OBRA">Camões</ABSTRACCAO>, as musas são gregas - Certo. 
+Em <OBRA TIPO="PUBLICACAO">Camões</OBRA>, as musas são gregas - Errado.
+
+7) Categoria ACONTECIMENTO
+
+7.1) GERAL
+
+Há acontecimentos que pelo seu nome marcam um tempo (EFEMERIDE), outros cuja significação se reduz a designarem um certo conjunto de actividades e de acções. Os acontecimentos dividem-se em ORGANIZADO (com sub-partes) e EVENTO (indivisível).
+
+7.2) Tipo EFEMERIDE
+
+Acontecimento ocorrido no passado e não repetível (25 de Abril, 11 de Setembro, 2.a guerra mundial)
+
+7.3) Tipo ORGANIZADO
+
+Acontecimento multifacetado, que poderá durar vários dias, e geralmente conter vários "eventos" (Copa, Euro 2004, Jogos Olímpicos de Inverno, Festival de Jazz do Estoril)
+
+7.4) Tipo EVENTO
+
+Acontecimento pontual, organizado ou não (Benfica-Sporting, Chico Buarque no Coliseu, Buzinão na Ponte)
+
+7.5) Diferenças entre ORGANIZADO e EVENTO
+
+Um bom exemplo da separação entre ORGANIZADO e EVENTO é o Euro2004, que foi um acontecimento incluiu vários eventos (jogos, festas, conferências, etc).
+
+Quando se diz que um evento pode ser organizado ou não, dá-se o exemplo de um jogo de futebol (organizado) ou de uma manifestação popular espontânea (não organizada).
+
+8) Categoria ABSTRACCAO
+
+8.1) Geral
+
+Há uma quantidade de ideias não palpáveis que são mencionadas por um nome em português.
+
+Considerámos: áreas do conhecimento e práticas (DISCIPLINA), estados e funções (ESTADO), correntes de pensamento e facções (ESCOLA), planos e projectos (PLANO), marcas (MARCA), ideias abstractas (IDEIA) e os próprios nomes (NOME).
+
+8.2) Tipo DISCIPLINA
+
+Disciplinas científicas, teorias, tecnologias e práticas (Inteligência Artificial, Neurofisiologia, Teoria da Relatividade, GSM, Tai-chi, futebol de 5, Java). Também engloba especialidades e áreas de governação:
+
+ex: O Dr. Silva foi demitido da pasta de <ABSTRACCAO TIPO=”DISCIPLINA”>Economia</ABSTRACCAO>...
+Este programa foi escrito em <ABSTRACCAO TIPO="DISCIPLINA">Java</ABSTRACCAO>.
+
+8.3) Tipo ESTADO
+
+
+Estados, condições ou funções (doença de Alzheimer, AIDS, sindroma de Chang, Sistema Nervoso Central). Estes devem incluir os prefixos que o tornam tal ( ex: "Mal de", "estado de", "doença de", "síndroma de"), mesmo que apresentem minúscula.
+
+8.4) Tipo ESCOLA
+
+Compreende escolas, modas, facções, seitas (Barroco, Renascimento, Bushismo, Testemunhas de Jeová, Darwinismo)
+
+8.5) Tipo MARCA
+
+Marcas de produtos, e raças de animais
+
+Vista Alegre, Benneton, Stradivarius, Nokia, Apple, Christian Dior, etc.
+
+IMPORTANTE! Ver 6.2)
+
+Ex:
+
+A <ABSTRACCAO TIPO="MARCA">Vista Alegre</ABSTRACCAO> é um símbolo de qualidade 
+O meu cão é um <ABSTRACCAO TIPO="MARCA">Rotweiller</ABSTRACCAO>.
+
+8.6) Tipo PLANO
+
+Muitas medidas políticas, administrativas e /ou financeiras, assim como projectos ou acordos, são designadas por um nome único:
+
+Exemplos: Plano Marshall, Orçamento Larou, Rendimento Único Garantido, etc. 
+O <ABSTRACCAO TIPO="PLANO">Pacto de Varsóvia</ABSTRACCAO> marcou uma viragem na política soviética.
+
+No entanto, o mesmo nome pode definir uma organização:
+
+Os países do <ORGANIZACAO TIPO=ADMINISTRACAO>Pacto de Varsóvia</ORGANIZACAO> desenvolveram uma política comum.
+
+8.7) Tipo IDEIA
+
+O mais abstracto, as ideias ou ideais são muitas vezes EMs.
+
+A honra da <ABSTRACCAO TIPO="IDEIA">França</ABSTRACCAO> estava em jogo.
+
+8.8) Tipo NOME
+
+Por vezes uma dada EM está a representar apenas o nome, e como tal deve ser identificada:
+
+Achei um cão. Vou dar-lhe o nome de <ABSTRACCAO TIPO="NOME">Bobi</ABSTRACCAO>. 
+O magnata criou uma empresa chamada <ABSTRACCAO TIPO="NOME">Cauca7</ABSTRACCAO>
+
+8.9) Tipo OBRA
+
+Ver 6.5.2): Quando a referência a um autor pressupõe um estilo artístico ou o seu trabalho artístico, deve ser de categoria <ABSTRACCAO TIPO="OBRA">:
+
+Em <ABSRACCAO TIPO="OBRA">Camões</ABSTRACCAO>, as musas são gregas - Certo. 
+Em <OBRA TIPO="PUBLICACAO">Camões</OBRA>, as musas são gregas - Errado.
+
+9) Categoria COISA
+
+9.1) Geral
+
+As coisas podem ser únicas (OBJECTO) ou ter um nome que representa o seu tipo (CLASSE). Podem além disso apenas ser substâncias (SUBSTANCIA) sem forma ou feitio determinado.
+
+9.2) Tipo OBJECTO
+
+Refere um objecto ou construção em particular que tenha um nome. Inclui planetas, estrelas, cometas e sóis.
+
+A fragata <COISA TIPO="OBJECTO">D. Luís</COISA> atracou ontem. 
+Comprámos uma casa ao pé do chalé <COISA TIPO="OBJECTO">Sonho Perfeito</COISA> 
+Consegue-se ver <COISA TIPO="OBJECTO">Marte</COISA> hoje à noite.
+
+9.3) Tipo CLASSE
+
+Refere um tipo de objecto Exemplos:
+
+contador Geiger, flauta de Bisel, PC, SCSI, PDF
+
+As folhas <COISA TIPO="CLASSE">A4</COISA> estão sobre a mesa <COISA TIPO="CLASSE">Luís XV</COISA>.
+
+9.3.1) Muitas vezes, a EM deste tipo refere o 'inventor' da classe (lâmpada de Edison, etc). O determinante deve ser incluído.
+
+pêndulo <COISA TIPO="CLASSE">de Foucault</COISA> - Certo. pêndulo de <COISA TIPO="CLASSE">Foucault</COISA> - Errado.
+
+9.3.2) Obras 'consumíveis' tais como pastéis de Belém, bolas de Berlim, Tiramisu de chocolate, vinho de Setúbal.
+
+Comi um óptimo <COISA TIPO="CLASSE">Bacalhau à Brás</COISA>. 
+bolas <COISA TIPO="CLASSE">de Berlim</COISA> 
+pastéis <COISA TIPO="CLASSE">de Belém</COISA>
+
+9.4) Tipo SUBSTANCIA
+
+Ex. Paracetamol, H2O.
+
+10) Categoria VALOR
+
+10.1) Geral
+
+Valores, como o nome indica, podem referir-se a quantidades absolutas ou relativas (QUANTIDADE), designar dinheiro (MOEDA) ou classificações desportivas, ordinais normais e outras (CLASSIFICACAO).
+
+Itens numéricos a marcar ordem no texto não são considerados EMs.
+
+Os valores também aplicam a regra de TEMPO 4.2.2, para casos como:
+
+Entre <VALOR TIPO="QUANTIDADE">7 a 10 metros</VALOR> - Errado. 
+Entre <VALOR TIPO="QUANTIDADE">7</VALOR> a <VALOR TIPO="QUANTIDADE">10 metros</VALOR> - certo.
+
+10.2) Tipo CLASSIFICACAO
+
+Exemplos: 2-0, 15', 3ª
+
+10.2.1) No exemplo anterior, a EM 15' só é uma classificação quando designa um tempo pelo qual se mede uma dada competição:
+
+ex: 1º lugar - Ferrari, com o tempo de <VALOR TIPO="CLASSIFICACAO">3' 57''</VALOR> - Certo. 
+ex: O golo foi apontado aos <VALOR TIPO="CLASSIFICACAO">14'</VALOR> por Deco - Errado. É VALOR QUANTIDADE.
+
+10.2.2) Muitas vezes, os números também pertencem a classificações.
+
+ex: Classificação: 1º FC Porto, <VALOR TIPO="CLASSIFICACAO">89</VALOR> pontos. - Certo.
+
+10.2.3) Expressões numéricas incluídas num nome de um evento não são VALOR. Por exemplo:
+
+Vai abrir a <ACONTECIMENTO>6ª Exposição Mundial de Cinema<ACONTECIMENTO> - Certo. 
+Vai abrir a <ACONTECIMENTO><VALOR TIPO="CLASSIFICACAO">6ª</VALOR> Exposição Mundial de Cinema<ACONTECIMENTO> - Errado.
+
+10.3) Tipo QUANTIDADE
+
+15 m, 30 kg, 50 mm, 1,4 kHz, 27º, 23%, 2.500, ph 2,5
+
+Engloba percentagens, números soltos, e, caso tenha unidades, a unidade.
+
+Não engloba unidades monetárias.
+
+Quando se refere unidades, refere-se unidades mensuráveis de distância, tempo, luz, área, volume, peso, massa, etc.
+
+Como tal, em '6 pessoas' e '9 folhas de papel', "pessoas" e "folhas de papel" não são unidades!
+
+'23 metros quadrados', '9m x 6m', '3 Bar', '4 quilos por metro cúbico' são EMs que englobam unidades.
+
+Um erro frequente é não incluir unidades de tempo, mas elas devem ser incluídas.
+
+Eu tenho <VALOR TIPO="QUANTIDADE">19 anos</VALOR>. - Certo. 
+Eu tenho <VALOR TIPO="QUANTIDADE">19</VALOR> anos. - Errado.
+
+10.4) Tipo MOEDA
+
+300$00, $US 15, £39, Cr 500, 50 contos, 30 milhões de cruzeiros, etc.
+
+11) Categoria VARIADO
+
+11) Geral- Esta etiqueta deve ter entidades não colocadas nas outras categorias, mas que sejam consideradas EMs.
+
+Exemplos (não exaustivos) são prémios, fenómenos naturais ou papéis de teatro (prémio Valmor, tufão El Nino, voo 714, Rei Lear...
+
+12) Morfologia
+
+A morfologia deve ser escrita como um atributo na etiqueta. Pode ser depois ou antes do atributo TIPO, mas deve ter aspas e respeitar a sintaxe:
+
+MORF="A,B"
+
+onde:
+
+A - representa o género, e pode ser M (masculino), F(feminino) ou ?(indefinido). 
+B – representa o número, e pode ser S (singular), P (plural) ou ? (indefinido).
+
+ex: Os <LOCAL TIPO="ADMINISTRATIVO" MORF="M,P">Estados Unidos da América</LOCAL>.
+
+12.1) As etiquetas TEMPO e VALOR não devem ter classificação morfológica.
+
+12.2) Nas localidades, geralmente consegue-se determinar o género ao verificar o determinante que a referencia
+
+ex: Do Porto, ao Funchal, no Brasil - Masculino 
+Da Espanha, à Covilhã, na Póvoa de Varzim – Feminino 
+De Marrocos, a Braga, em Brasília - Indefinido
+
