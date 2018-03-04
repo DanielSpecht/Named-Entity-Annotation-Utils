@@ -103,17 +103,21 @@ class utils_tests(unittest.TestCase):
 class simple_match_annotator_tests(unittest.TestCase):
     
     def test_entity_match_annotator(self):
-        e1 = Entity(["B1", "B1 E1", "B1 I1 E1"],["c1","c2"])
+        e1 = Entity(["B1", "B1 E1", "B1 I1 E1"],["c1","c2","c3"])
         e2 = Entity(["B2", "B2 E2", "B2 I2 E2"],["c3"])
         in_between_string = "O O O"
         
         text = e1.names[0] + in_between_string + e1.names[2] + in_between_string + e2.names[2]
         annotated = EntityMatchAnnotator(text, [e1, e2])
 
-        section_strings = [e1.names[0], e1.names[2], e2.names[2]]
+        results = {e1.names[0]: e1.classes, e1.names[2]: e1.classes, e2.names[2]: e2.classes}
+
         for a in annotated._annotations:
-            self.assertTrue(a.section in section_strings)
-            section_strings.remove(a.section)
+            self.assertTrue(a.section in results)
+            self.assertTrue(sorted(a.classes) == sorted(results[a.section]))
+            del results[a.section]
+
+        self.assertEqual(0, len(results))
 
 if __name__ == '__main__':
     unittest.main()

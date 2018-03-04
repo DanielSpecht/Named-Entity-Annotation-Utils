@@ -27,25 +27,24 @@ class EntityMatchAnnotator(AnnotatedText):
             text (string): The text to search the strings on the text
         """
         
-        names = []
+        names = reduce(lambda x, y: x + y, [entity.names for entity in entities])
+        
         # create lookup table for names classes
         class_lookup = {name:set() for name in names}
         for entity in entities:
             for name in entity.names:
-                if name not in names:
-                    names.append(name)
-                    class_lookup[name] = entity.classes
-                    continue
-                class_lookup[name].union(entity.classes)
+                class_lookup[name] = set(entity.classes)
+                continue
+            class_lookup[name].union(entity.classes)
 
         matches = utils.match_strings(text, names)
         i = 0
         for name in matches:
-            for segment in matches[name]:                
+            for segment in matches[name]:
                 start = segment[0]
                 end = segment[1]
                 i+=1
-                self.tag_section(start,end,class_lookup[name])
+                self.tag_section(start,end, list(class_lookup[name]))
 
 # e1 = Entity(["B1", "B1 E1", "B1 I1 E1"],["c1","c2"])
 # e2 = Entity(["B2", "B2 E2", "B2 I2 E2"],["c3"])
