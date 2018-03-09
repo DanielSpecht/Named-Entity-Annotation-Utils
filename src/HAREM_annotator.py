@@ -36,7 +36,7 @@ class HaremAnnotator(AnnotatedText):
         self.alternatives_section = []
         self._annotate_harem_doc(harem_xml)
         
-    def tag_alt_element(self, alt_element, current_index):
+    def _tag_alt_element(self, alt_element, current_index):
         subtrees = self._get_alt_tag_subtrees(alt_element)
         alt_sec = AlternativesAnnotatedSection(self._text, current_index, len(self._get_alt_element_text(alt_element)))
         for subtree in subtrees:
@@ -46,7 +46,7 @@ class HaremAnnotator(AnnotatedText):
                 if xml_type == "text":
                     i += len(value)
                 elif xml_type == "simple_xml_element":
-                    alt_sec.tag_section(self._text, i, i + len(value.text), [value.tag])
+                    alt_sec.tag_section(self._text, i + 1, i + len(value.text), [value.tag])
                     i += len(value.text)
 
                 elif xml_type == "alt_xml_element":
@@ -107,7 +107,7 @@ class HaremAnnotator(AnnotatedText):
             
             yield ("text", segments[seg_i])
             seg_i += 1
-        
+
     def _annotate_harem_doc(self, harem_xml_element):
         current_index = -1
         for xml_type, value in self._yield_xml_elements(harem_xml_element.find('TEXTO')):
@@ -120,5 +120,5 @@ class HaremAnnotator(AnnotatedText):
                 current_index += len(value.text)
 
             if xml_type == "alt_xml_element":
-                self.tag_alt_element(value, current_index)    
+                self._tag_alt_element(value, current_index)    
                 current_index += len(self._get_alt_element_text(value))
