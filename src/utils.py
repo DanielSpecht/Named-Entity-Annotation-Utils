@@ -1,4 +1,6 @@
 import re
+import xml.etree.ElementTree as etree
+
 # TODO: use a search tree
 def score_strings(text, strings, text_index):
     """ Indicating how many characters in sequence in the right order are present in the text starting from 'text_index'
@@ -73,22 +75,6 @@ def match_strings(text, strings):
     
     return matches
 
-harem_categories = ["PESSOA","ORGANIZACAO","TEMPO","LOCAL","OBRA","ACONTECIMENTO","ABSTRACCAO","COISA","VALOR","VARIADO"]
-harem_tipos = []
-
-# fixed_harem_path
-# <PESSOA TIPO="GRUPOMEMBRO" MORF="M,S">Werder Bremen</PESSOA>
-
-def get_HAREM_types(fixed_harem_path):
-    regex = 'TIPO="[A-Z]+"'
-
-    
-
-    p.findall(s)
-
-def get_HAREM_categories(fixed_harem_path):
-    pass
-
 def fix_HAREM_XML(file_path, fixed_harem_path):
     category_regex = re.compile('<\/?([\|A-Z]+)>')
     type_regex = re.compile('TIPO="([^"]*)"')
@@ -119,7 +105,19 @@ def fix_HAREM_XML(file_path, fixed_harem_path):
 
         fixed_harem.write("</DATA>")
 
-def get_HAREM_docs(filepath):
-    pass
+def get_HAREM_DOCS_XML(file_path):
+    """
+    Generator for the docs in the HAREM corpus.
+    Yields the xml string of the sections of the recieved document in sucession.
+    
+    Args:
+        file_path (string): The path of the HAREM corpus
+    """
+    DOC_regex = re.compile('(<DOC>.*</DOC>)', re.DOTALL)
 
-fix_HAREM_XML("/home/daniel/Repositories/Named-Entity-Annotation-Utils/resources/ColeccaoDouradaHAREM/ColeccaoDouradaHAREM.xml","/home/daniel/Repositories/Named-Entity-Annotation-Utils/resources/ColeccaoDouradaHAREM/ColeccaoDouradaHAREMFIXED.xml")
+    for event, elem in etree.iterparse(file_path, events=('start', 'end')):
+        if elem.tag == "DOC" and event == 'start':
+            doc_xml_string = etree.tostring(elem).decode("utf-8")
+            # filter only the relevant segment
+            doc_xml_string = DOC_regex.search(doc_xml_string).group(1)
+            yield doc_xml_string

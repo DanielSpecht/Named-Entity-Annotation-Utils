@@ -45,16 +45,3 @@ class EntityMatchAnnotator(AnnotatedText):
                 end = segment[1]
                 i+=1
                 self.tag_section(start,end, list(class_lookup[name]))
-
-# e1 = Entity(["B1", "B1 E1", "B1 I1 E1"],["c1","c2"])
-# e2 = Entity(["B2", "B2 E2", "B2 I2 E2"],["c3"])
-# in_between_string = "O O O"
-
-# text = e1.names[0] + in_between_string + e1.names[2] + in_between_string + e2.names[2]
-# print(text)
-
-# annotated = EntityMatchAnnotator(text, [e1, e2])
-# print(len(annotated._annotations))
-
-# for a in annotated._annotations:
-#     print(a.section)

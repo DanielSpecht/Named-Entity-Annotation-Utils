@@ -3,6 +3,7 @@ sys.path.insert(0, '../src')
 
 from annotated_text import AnnotatedText
 from simple_match_annotator import EntityMatchAnnotator, Entity
+from HAREM_annotator import HaremAnnotator
 import unittest
 import utils
 
@@ -119,5 +120,36 @@ class simple_match_annotator_tests(unittest.TestCase):
 
         self.assertEqual(0, len(results))
 
+class harem_annotator_tests(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        # For the purposes of testing the 'harem_simple.xml' file is a subsection of the harem corpus without the "ALT" tags (i.e <ALT>)
+        cls.harem_simple = "./test_resources/harem_simple.xml"
+        cls.harem_simple_fixed = "./test_resources/harem_simple_fixed.xml"
+        utils.fix_HAREM_XML(cls.harem_simple, cls.harem_simple_fixed)
+
+        # Has 'ALT' tag
+        cls.harem_with_alt = "./test_resources/harem_with_alt.xml"
+        cls.harem_with_alt_fixed = "./test_resources/harem_with_alt_fixed.xml"
+        utils.fix_HAREM_XML(cls.harem_with_alt, cls.harem_with_alt_fixed)
+
+    def test_simple_matches(self):
+        doc_xml = next(utils.get_HAREM_DOCS_XML(self.harem_with_alt_fixed))
+        annotator = HaremAnnotator(doc_xml)
+
+        sections = ["Legi�o da Boa Vontade","10�.","Legi�o da Boa Vontade","10�.","Portugal","Porto","Legi�o da Boa Vontade","Brasil","Alziro Zarur","Hora da Boa Vontade","R�dio Globo","Rio de Janeiro","Alziro Zarur","Jos� Paiva Netto","Legi�o da Boa Vontade","4.�","Organiza��o Mundial das Na��es Unidas","Portugal","Legi�o da Boa Vontade","2 de Mar�o de 1989","Um passo em frente","Ronda-da-caridade","Semente da Boa vontade"]
+        
+        print(annotator._annotations)
+        for a in annotator._annotations:
+            print(a.section, "---", a.classes)
+
+        print(annotator._text)
+
+        for a in annotator.alternatives_section:
+            for b in a.groups:
+                for c in b:
+                    print("->",c.section,"<-", len(c.section) ,"---", c.classes)
+        
 if __name__ == '__main__':
     unittest.main()
