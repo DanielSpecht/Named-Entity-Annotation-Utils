@@ -97,12 +97,6 @@ def fix_HAREM_XML(file_path, fixed_harem_path):
 
             fixed_harem.write(line)
 
-            if line_problematic_elements:
-                print(line_problematic_elements)
-            #print(line_types)
-            #types = types.union(set(line_types))
-            #print(list(types))
-
         fixed_harem.write("</DATA>")
 
 def get_HAREM_DOCS_XML(file_path):
@@ -115,8 +109,8 @@ def get_HAREM_DOCS_XML(file_path):
     """
     DOC_regex = re.compile('(<DOC>.*</DOC>)', re.DOTALL)
 
-    for event, elem in etree.iterparse(file_path, events=('start', 'end')):
-        if elem.tag == "DOC" and event == 'start':
+    for event, elem in etree.iterparse(file_path, events=('end',)):
+        if elem.tag == "DOC":
             doc_xml_string = etree.tostring(elem).decode("utf-8")
             # filter only the relevant segment
             doc_xml_string = DOC_regex.search(doc_xml_string).group(1)

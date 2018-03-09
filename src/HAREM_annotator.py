@@ -8,14 +8,13 @@ class AlternativesAnnotatedSection():
 
     def __init__(self, text, start_index, end_index):
         
-        if end_index < start_index or end_index > len(text) - 1 or start_index < 0:
+        if end_index < start_index or end_index > len(text) - 1 or start_index < 0:            
             raise Exception("Invalid segment specification")
 
         self.section = text[start_index: end_index + 1]
         self.init = start_index
         self.end_index = end_index
         self.groups = []
-        self.new_group()
 
     def new_group(self):
         self.groups.append([])
@@ -26,19 +25,18 @@ class AlternativesAnnotatedSection():
 class HaremAnnotator(AnnotatedText):
     """ Class for annotating text with recieved entities """
     def __init__(self, harem_doc_xml):
-        
         harem_xml = etree.XML(harem_doc_xml)
         
         self.doc_id = harem_xml.find("DOCID").text
         self.gender = harem_xml.find("GENERO").text
         self.origin = harem_xml.find("ORIGEM").text
         super().__init__(self._get_xml_text(harem_xml.find('TEXTO')))
-        self.alternatives_section = []
+        self.alternatives_sections = []
         self._annotate_harem_doc(harem_xml)
         
     def _tag_alt_element(self, alt_element, current_index):
         subtrees = self._get_alt_tag_subtrees(alt_element)
-        alt_sec = AlternativesAnnotatedSection(self._text, current_index, len(self._get_alt_element_text(alt_element)))
+        alt_sec = AlternativesAnnotatedSection(self._text, current_index, current_index + len(self._get_alt_element_text(alt_element)))
         for subtree in subtrees:
             alt_sec.new_group()
             i = current_index
@@ -46,15 +44,14 @@ class HaremAnnotator(AnnotatedText):
                 if xml_type == "text":
                     i += len(value)
                 elif xml_type == "simple_xml_element":
-                    alt_sec.tag_section(self._text, i + 1, i + len(value.text), [value.tag])
+                    alt_sec.tag_section(self._text, i, i + len(value.text) - 1, [value.tag])
                     i += len(value.text)
 
                 elif xml_type == "alt_xml_element":
                     raise Exception("Invalid ALT tag inside ALT tag")
 
-        self.alternatives_section.append(alt_sec)
+        self.alternatives_sections.append(alt_sec)
             
-
     def _get_alt_tag_subtrees(self, alt_element):
         # Gets the subtree as string
         ALT_regex = re.compile('<ALT>(.*)</ALT>')
@@ -71,6 +68,9 @@ class HaremAnnotator(AnnotatedText):
         subtrees = self._get_alt_tag_subtrees(alt_element)
         return "".join(list(subtrees[0].itertext()))
 
+    def _get_simple_element_text(self, simple_element):
+        return "".join(list(simple_element.itertext()))
+
     def _get_xml_text(self, xml_element):
         text = []
         for xml_type, value in self._yield_xml_elements(xml_element):
@@ -79,8 +79,8 @@ class HaremAnnotator(AnnotatedText):
             elif xml_type == "alt_xml_element":
                 text.append(self._get_alt_element_text(value))
             elif xml_type == "simple_xml_element":
-                text.append(value.text)
-
+                text.append(self._get_simple_element_text(value))
+        
         return "".join(text)
 
     def _yield_xml_elements(self, xml_element):
@@ -109,16 +109,18 @@ class HaremAnnotator(AnnotatedText):
             seg_i += 1
 
     def _annotate_harem_doc(self, harem_xml_element):
-        current_index = -1
+        current_index = 0
         for xml_type, value in self._yield_xml_elements(harem_xml_element.find('TEXTO')):
 
             if xml_type == "text":
                 current_index += len(value)
 
             if xml_type == "simple_xml_element":
-                self.tag_section(current_index, current_index + len(value.text), [value.tag])
-                current_index += len(value.text)
+                element_text = self._get_simple_element_text(value)
+                print(self._text[current_index:current_index + len(element_text)])
+                self.tag_section(current_index, current_index + len(element_text) - 1, [value.tag])
+                current_index += len(element_text)
 
             if xml_type == "alt_xml_element":
-                self._tag_alt_element(value, current_index)    
+                self._tag_alt_element(value, current_index)
                 current_index += len(self._get_alt_element_text(value))
