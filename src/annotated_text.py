@@ -48,7 +48,7 @@ class AnnotatedText(TextSection):
 
     def new_group(self):
         """ Sets the current group to a new one """
-        self.groups.append()
+        self.groups.append(Anno)
 
     def tag_section(self, start_index, end_index, classes):
         """ Annotates a section of the text with information """
